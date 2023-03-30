@@ -88,7 +88,7 @@ class Model implements BlueprintModel
 
     public function primaryKey()
     {
-        return collect($model->columns())->first()->name();
+        return collect($this->columns())->first()->name();
     }
 
     public function usesPrimaryKey()
