@@ -40,6 +40,13 @@ class ModelGenerator extends AbstractClassGenerator implements Generator
             ->reject(fn ($column) => in_array($column, ['created_at', 'updated_at']) || in_array($column, $relationships['belongsTo'] ?? []))
             ->all();
     }
+    
+    private function primary(array $columns)
+    {
+        return collect($columns)
+            ->first();
+    }
+
 
     protected function populateStub(string $stub, Model $model)
     {
@@ -127,8 +134,7 @@ class ModelGenerator extends AbstractClassGenerator implements Generator
     {
         $properties = [];
         
-        $primary = $model->columns()[0];
-           $properties[] = str_replace('{{ name }}', $primary->name, this->filesystem->stub('model.primary.stub'));
+           $properties[] = str_replace('{{ name }}', $this->primary->name, this->filesystem->stub('model.primary.stub'));
 
         if ($model->usesCustomTableName() || $model->isPivot()) {
             $properties[] = str_replace('{{ name }}', $model->tableName(), $this->filesystem->stub('model.table.stub'));
