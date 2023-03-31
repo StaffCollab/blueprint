@@ -118,7 +118,7 @@ class Model implements BlueprintModel
 
     public function tableName()
     {
-        return $this->table ?? Str::snake(Str::pluralStudly($this->name));
+        return $this->table ?? Str::snake($this->name);
     }
 
     public function setTableName($name)
